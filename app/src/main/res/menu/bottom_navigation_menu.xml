@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        android:title="HOME"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+    <item
+        android:id="@+id/nav_orders"
+        android:title="ORDERS"
+        android:icon="@drawable/ic_truck"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+    <item
+        android:id="@+id/nav_offer"
+        android:title="OFFER"
+        android:icon="@drawable/ic_offer"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+    <item
+        android:id="@+id/nav_account"
+        android:title="ACCOUNT"
+        android:icon="@drawable/ic_user"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+
+        />
+
+</menu>

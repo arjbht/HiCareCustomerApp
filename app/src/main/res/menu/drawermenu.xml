@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/ic_home"
+            />
+        <item
+            android:id="@+id/nav_account"
+            android:title="Account Details"
+            android:icon="@drawable/ic_user"
+            />
+        <item
+            android:id="@+id/nav_referral"
+            android:title="Referral"
+            android:icon="@drawable/ic_referral"
+            />
+
+        <item
+            android:id="@+id/nav_offer"
+            android:title="Offer"
+            android:icon="@drawable/ic_offer"
+            />
+        <item
+            android:id="@+id/nav_money"
+            android:title="Hicare Money"
+            android:icon="@drawable/ic_wallet"
+            />
+
+        <item
+            android:id="@+id/nav_complaint"
+            android:title="Complaint History"
+            android:icon="@drawable/ic_complaint"
+            />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings"
+
+            />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"
+            android:icon="@drawable/ic_logout"
+           />
+    </group>
+</menu>
