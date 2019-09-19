@@ -3,101 +3,543 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
 
-        <variable
-            name="model"
-            type="com.arj.hicarehygiene.viewmodel.OrderViewModel" />
-    </data>
-
-    <android.support.constraint.ConstraintLayout
-
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/tab_textColor">
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content">
 
-
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/cl_head"
+            <LinearLayout
+                android:id="@+id/lnrTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/white"
-                app:layout_constraintTop_toTopOf="parent">
+                android:weightSum="7"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/img_logo"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:paddingLeft="5dp"
-                    android:src="@mipmap/logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@id/txt_price"
-                    app:layout_constraintRight_toLeftOf="@id/txt_price"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/gradient_list"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                    />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="12dp"
+                        android:src="@drawable/ic_dots_menu" />
 
 
-                <TextView
-                    android:id="@+id/txt_service"
-                    android:layout_width="200dp"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_weight="5"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txtService"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="Still Cockroaches in house visiblet446g6"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toRightOf="@+id/img_logo"
+                        app:layout_constraintRight_toLeftOf="@id/txt_status"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_logo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:text="Complaint No."
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/lnrType"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:id="@+id/txtCaseNo"
+                                android:layout_width="110dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:text="123456cdsfdsfdsfdsdsgsdgsdgsdggd"
+                                android:textSize="15sp"
+                                />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:text="Status"
+
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/lnrType"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/txtStatus"
+                                android:layout_width="110dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:text="OPEN"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                   >
+
+                    <ImageView
+                        android:id="@+id/imgArrow"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chevron_arrow_up"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnrDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_left"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="7">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:paddingTop="5dp"
-                    android:text="Still Cockroaches in house visible"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@+id/img_logo"
-                    app:layout_constraintRight_toLeftOf="@id/txt_status"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/img_logo"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/txt_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="2dp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:text="2019-02-06T17:12:37+05:30"
-                    android:textColor="@color/colorTextDrawerSecondary"
-                    app:layout_constraintLeft_toRightOf="@+id/img_logo"
-                    app:layout_constraintTop_toBottomOf="@id/txt_service"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/txt_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="12dp"
-                    android:lineSpacingMultiplier="1.2"
-                    android:text="RESOLVED"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
-
-                    tools:ignore="MissingConstraints" />
+                    android:gravity="center_vertical"
+                    android:layout_weight="6"
+                    android:orientation="vertical">
 
 
-            </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="Complaint Details"
+                        android:textColor="@color/yellow"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toRightOf="@+id/img_logo"
+                        app:layout_constraintRight_toLeftOf="@id/txt_status"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/img_logo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Order No."
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/lnrType"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtOrder"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:text="12345faefefefeefwefwefwfwfwefewfffwfwffef6"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Complaint On"
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/lnrType"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="12-345=4635==3=fdsfrvrr rrwwrwerewrew"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:text="Description"
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=":"
+                                android:textColor="@color/yellow"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <TextView
+                                android:id="@+id/txtDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:text="i really not like the service the fadffadf ddvdf fsdfsdf"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnrView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/yellow_bg">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="View More"
+                            android:gravity="center"
+                            android:textColor="@color/yellow"
+                            android:layout_gravity="center"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!--<android.support.constraint.ConstraintLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/tab_textColor">-->
+
+
+            <!--<android.support.constraint.ConstraintLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:visibility="gone">-->
+
+                <!--<android.support.constraint.ConstraintLayout-->
+                    <!--android:id="@+id/cl_head"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="4dp"-->
+                    <!--android:background="@color/white"-->
+                    <!--app:layout_constraintTop_toTopOf="parent">-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/img_logo"-->
+                        <!--android:layout_width="55dp"-->
+                        <!--android:layout_height="55dp"-->
+                        <!--android:paddingLeft="5dp"-->
+                        <!--android:src="@mipmap/logo"-->
+                        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                        <!--app:layout_constraintStart_toStartOf="parent"-->
+                        <!--app:layout_constraintTop_toTopOf="parent"-->
+
+                        <!--/>-->
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_service"-->
+                        <!--android:layout_width="230dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:lineSpacingMultiplier="1.2"-->
+                        <!--android:paddingTop="5dp"-->
+                        <!--android:text="Still Cockroaches in house visible"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:textStyle="bold"-->
+                        <!--app:layout_constraintLeft_toRightOf="@+id/img_logo"-->
+                        <!--app:layout_constraintRight_toLeftOf="@id/txt_status"-->
+                        <!--app:layout_constraintRight_toRightOf="parent"-->
+                        <!--app:layout_constraintStart_toEndOf="@id/img_logo"-->
+                        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_ComplaintNo"-->
+                        <!--android:layout_width="230dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:lineSpacingMultiplier="1.2"-->
+                        <!--android:text="Complaint No. : 14324"-->
+                        <!--android:textColor="@color/colorTextDrawerSecondary"-->
+                        <!--app:layout_constraintLeft_toRightOf="@+id/img_logo"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/txt_service"-->
+                        <!--tools:ignore="MissingConstraints" />-->
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_date"-->
+                        <!--android:layout_width="230dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:lineSpacingMultiplier="1.2"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:text="Complaint On : "-->
+                        <!--android:textColor="@color/colorTextDrawerSecondary"-->
+                        <!--app:layout_constraintLeft_toRightOf="@+id/img_logo"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/txt_ComplaintNo"-->
+                        <!--tools:ignore="MissingConstraints" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/txt_status"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginTop="2dp"-->
+
+                        <!--android:layout_marginRight="12dp"-->
+                        <!--android:lineSpacingMultiplier="1.2"-->
+                        <!--android:text="RESOLVED"-->
+                        <!--android:textColor="@color/colorPrimary"-->
+                        <!--android:textSize="18dp"-->
+                        <!--android:textStyle="bold"-->
+                        <!--app:layout_constraintBottom_toTopOf="parent"-->
+                        <!--app:layout_constraintRight_toRightOf="parent"-->
+                        <!--app:layout_constraintTop_toBottomOf="parent"-->
+
+                        <!--tools:ignore="MissingConstraints" />-->
+
+
+                <!--</android.support.constraint.ConstraintLayout>-->
+
+
+            <!--</android.support.constraint.ConstraintLayout>-->
+
+
+        <!--</android.support.constraint.ConstraintLayout>-->
+
+    </android.support.v7.widget.CardView>
+
+
+
+
 </layout>

@@ -206,6 +206,7 @@
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
+                        android:visibility="gone"
                         android:onClick="@{(view) -> handler.onMyWalletClicked(view)}">
 
                         <ImageView
@@ -250,11 +251,13 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:visibility="gone"
                         android:background="@color/tab_textColor" />
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
+                        android:visibility="gone"
                         android:onClick="@{(view) -> handler.onManageAddressClicked(view)}">
 
                         <ImageView
@@ -295,10 +298,7 @@
 
                     </android.support.constraint.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/tab_textColor" />
+
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"

@@ -58,6 +58,9 @@ public class LoginResponse extends RealmObject {
     @SerializedName("OTP")
     @Expose
     private String OTP;
+    @SerializedName("SFDCID")
+    @Expose
+    private String SFDCID;
 
     public String getOTP() {
         return OTP;
@@ -178,5 +181,13 @@ public class LoginResponse extends RealmObject {
 
     public void setExpires(String expires) {
         this.expires = expires;
+    }
+
+    public String getSFDCID() {
+        return SFDCID;
+    }
+
+    public void setSFDCID(String SFDCID) {
+        this.SFDCID = SFDCID;
     }
 }

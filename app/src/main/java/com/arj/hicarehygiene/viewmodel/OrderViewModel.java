@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.arj.hicarehygiene.network.model.OrdersModel.Orders;
+import com.arj.hicarehygiene.network.model.OrdersModel.ServicePlan;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class OrderViewModel implements Parcelable {
     private String Id;
@@ -32,6 +35,24 @@ public class OrderViewModel implements Parcelable {
     private String FlatType;
     private String Quantity;
     private String ServiceType;
+    private String serviceCodeC;
+    private String sPCodeC;
+    private String serviceGroupCodeC;
+    private String activeC;
+    private String accountTypeC;
+    private String customerTypeR;
+    private String serviceAreaR;
+    private String subTypeR;
+    private String frequencyC;
+    private String numberOfTreatmentsC;
+    private String validityDaysC;
+    private String numberOfCheckupsC;
+    private Boolean costSheetServicePlanC;
+    private String sPCodePlanName;
+    private String idserviceplan;
+    private String serviceName;
+    private String dataTypeserviceplan;
+    private ServicePlan servicePlan;
 
 
 
@@ -63,6 +84,23 @@ public class OrderViewModel implements Parcelable {
         this.FlatType = "NA";
         this.Quantity = "NA";
         this.ServiceType ="NA";
+        this.sPCodeC = "NA";
+        this.serviceGroupCodeC = "NA";
+        this.activeC = "NA";
+        this.accountTypeC = "NA";
+        this.customerTypeR = "NA";
+        this.serviceAreaR = "NA";
+        this.subTypeR = "NA";
+        this.accountTypeC = "NA";
+        this.frequencyC = "NA";
+        this.numberOfTreatmentsC = "NA";
+        this.validityDaysC = "NA";
+        this.numberOfCheckupsC = "NA";
+        this.costSheetServicePlanC = false;
+        this.sPCodePlanName = "NA";
+        this.idserviceplan = "NA";
+        this.serviceName = "NA";
+        this.dataTypeserviceplan = "NA";
     }
 
 
@@ -93,6 +131,24 @@ public class OrderViewModel implements Parcelable {
         FlatType = in.readString();
         Quantity = in.readString();
         ServiceType = in.readString();
+        serviceCodeC = in.readString();
+        sPCodeC = in.readString();
+        serviceGroupCodeC = in.readString();
+        activeC = in.readString();
+        customerTypeR = in.readString();
+        serviceAreaR = in.readString();
+        subTypeR = in.readString();
+        frequencyC = in.readString();
+        numberOfTreatmentsC = in.readString();
+        validityDaysC = in.readString();
+        numberOfCheckupsC = in.readString();
+        byte tmpCostSheetServicePlanC = in.readByte();
+        costSheetServicePlanC = tmpCostSheetServicePlanC == 0 ? null : tmpCostSheetServicePlanC == 1;
+        sPCodePlanName = in.readString();
+        idserviceplan = in.readString();
+        serviceName = in.readString();
+        dataTypeserviceplan = in.readString();
+        servicePlan = in.readParcelable(ServicePlan.class.getClassLoader());
     }
 
     public static final Creator<OrderViewModel> CREATOR = new Creator<OrderViewModel>() {
@@ -315,6 +371,150 @@ public class OrderViewModel implements Parcelable {
         ServiceType = serviceType;
     }
 
+    public String getServiceCodeC() {
+        return serviceCodeC;
+    }
+
+    public void setServiceCodeC(String serviceCodeC) {
+        this.serviceCodeC = serviceCodeC;
+    }
+
+    public String getsPCodeC() {
+        return sPCodeC;
+    }
+
+    public void setsPCodeC(String sPCodeC) {
+        this.sPCodeC = sPCodeC;
+    }
+
+    public String getServiceGroupCodeC() {
+        return serviceGroupCodeC;
+    }
+
+    public void setServiceGroupCodeC(String serviceGroupCodeC) {
+        this.serviceGroupCodeC = serviceGroupCodeC;
+    }
+
+    public String getActiveC() {
+        return activeC;
+    }
+
+    public void setActiveC(String activeC) {
+        this.activeC = activeC;
+    }
+
+    public Object getAccountTypeC() {
+        return accountTypeC;
+    }
+
+    public void setAccountTypeC(String accountTypeC) {
+        this.accountTypeC = accountTypeC;
+    }
+
+    public String getCustomerTypeR() {
+        return customerTypeR;
+    }
+
+    public void setCustomerTypeR(String customerTypeR) {
+        this.customerTypeR = customerTypeR;
+    }
+
+    public String getServiceAreaR() {
+        return serviceAreaR;
+    }
+
+    public void setServiceAreaR(String serviceAreaR) {
+        this.serviceAreaR = serviceAreaR;
+    }
+
+    public String getSubTypeR() {
+        return subTypeR;
+    }
+
+    public void setSubTypeR(String subTypeR) {
+        this.subTypeR = subTypeR;
+    }
+
+    public String getFrequencyC() {
+        return frequencyC;
+    }
+
+    public void setFrequencyC(String frequencyC) {
+        this.frequencyC = frequencyC;
+    }
+
+    public String getNumberOfTreatmentsC() {
+        return numberOfTreatmentsC;
+    }
+
+    public void setNumberOfTreatmentsC(String numberOfTreatmentsC) {
+        this.numberOfTreatmentsC = numberOfTreatmentsC;
+    }
+
+    public String getValidityDaysC() {
+        return validityDaysC;
+    }
+
+    public void setValidityDaysC(String validityDaysC) {
+        this.validityDaysC = validityDaysC;
+    }
+
+    public String getNumberOfCheckupsC() {
+        return numberOfCheckupsC;
+    }
+
+    public void setNumberOfCheckupsC(String numberOfCheckupsC) {
+        this.numberOfCheckupsC = numberOfCheckupsC;
+    }
+
+    public Boolean getCostSheetServicePlanC() {
+        return costSheetServicePlanC;
+    }
+
+    public void setCostSheetServicePlanC(Boolean costSheetServicePlanC) {
+        this.costSheetServicePlanC = costSheetServicePlanC;
+    }
+
+    public String getsPCodePlanName() {
+        return sPCodePlanName;
+    }
+
+    public void setsPCodePlanName(String sPCodePlanName) {
+        this.sPCodePlanName = sPCodePlanName;
+    }
+
+    public String getIdserviceplan() {
+        return idserviceplan;
+    }
+
+    public void setIdserviceplan(String idserviceplan) {
+        this.idserviceplan = idserviceplan;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getDataTypeserviceplan() {
+        return dataTypeserviceplan;
+    }
+
+    public void setDataTypeserviceplan(String dataTypeserviceplan) {
+        this.dataTypeserviceplan = dataTypeserviceplan;
+    }
+
+    public ServicePlan getServicePlan() {
+        return servicePlan;
+    }
+
+    public void setServicePlan(ServicePlan servicePlan) {
+        this.servicePlan = servicePlan;
+    }
+
     public void clone(Orders orders) {
         this.Id = orders.getId();
         this.OrderNumber = orders.getOrderNumber();
@@ -342,7 +542,17 @@ public class OrderViewModel implements Parcelable {
         this.Quantity = orders.getQuantity();
         this.CustStatus = orders.getCustStatus();
         this.ServiceType = orders.getServiceType();
+        this.serviceAreaR =orders.getServicePlan().getServiceAreaR();
+        this.serviceCodeC = orders.getServicePlan().getServiceCodeC();
+        this.serviceName = orders.getServicePlan().getName();
+        this.activeC = orders.getServicePlan().getActiveC();
+        this.customerTypeR =orders.getServicePlan().getCustomerTypeR();
+        this.numberOfCheckupsC = orders.getServicePlan().getNumberOfCheckupsC();
+        this.dataTypeserviceplan = orders.getServicePlan().getDataType();
+        this.servicePlan = orders.getServicePlan();
+        this.serviceGroupCodeC = orders.getServicePlan().getServiceGroupCodeC();
     }
+
 
     @Override
     public int describeContents() {
@@ -350,32 +560,49 @@ public class OrderViewModel implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Id);
-        dest.writeString(OrderNumber);
-        dest.writeString(EndDate);
-        dest.writeString(StartDate);
-        dest.writeString(CustStatus);
-        dest.writeString(HouseID);
-        dest.writeString(HouseName);
-        dest.writeString(UnitValue);
-        dest.writeString(PaymentValue);
-        dest.writeString(AccountId);
-        dest.writeString(AccountName);
-        dest.writeString(AccountMobileNo);
-        dest.writeString(AccountType);
-        dest.writeString(AccountEmail);
-        dest.writeString(AccountFlatNo);
-        dest.writeString(AccountBuildingName);
-        dest.writeString(AccountLandmark);
-        dest.writeString(AccountLocality);
-        dest.writeString(AccountBillingStreet);
-        dest.writeString(AccountBillingPostalCode);
-        dest.writeString(ServicePlanName);
-        dest.writeString(PaymentStatus);
-        dest.writeString(PaymentType);
-        dest.writeString(FlatType);
-        dest.writeString(Quantity);
-        dest.writeString(ServiceType);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Id);
+        parcel.writeString(OrderNumber);
+        parcel.writeString(EndDate);
+        parcel.writeString(StartDate);
+        parcel.writeString(CustStatus);
+        parcel.writeString(HouseID);
+        parcel.writeString(HouseName);
+        parcel.writeString(UnitValue);
+        parcel.writeString(PaymentValue);
+        parcel.writeString(AccountId);
+        parcel.writeString(AccountName);
+        parcel.writeString(AccountMobileNo);
+        parcel.writeString(AccountType);
+        parcel.writeString(AccountEmail);
+        parcel.writeString(AccountFlatNo);
+        parcel.writeString(AccountBuildingName);
+        parcel.writeString(AccountLandmark);
+        parcel.writeString(AccountLocality);
+        parcel.writeString(AccountBillingStreet);
+        parcel.writeString(AccountBillingPostalCode);
+        parcel.writeString(ServicePlanName);
+        parcel.writeString(PaymentStatus);
+        parcel.writeString(PaymentType);
+        parcel.writeString(FlatType);
+        parcel.writeString(Quantity);
+        parcel.writeString(ServiceType);
+        parcel.writeString(serviceCodeC);
+        parcel.writeString(sPCodeC);
+        parcel.writeString(serviceGroupCodeC);
+        parcel.writeString(activeC);
+        parcel.writeString(customerTypeR);
+        parcel.writeString(serviceAreaR);
+        parcel.writeString(subTypeR);
+        parcel.writeString(frequencyC);
+        parcel.writeString(numberOfTreatmentsC);
+        parcel.writeString(validityDaysC);
+        parcel.writeString(numberOfCheckupsC);
+        parcel.writeByte((byte) (costSheetServicePlanC == null ? 0 : costSheetServicePlanC ? 1 : 2));
+        parcel.writeString(sPCodePlanName);
+        parcel.writeString(idserviceplan);
+        parcel.writeString(serviceName);
+        parcel.writeString(dataTypeserviceplan);
+        parcel.writeParcelable(servicePlan, i);
     }
 }

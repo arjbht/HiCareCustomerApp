@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.RealmObject;
+
 public class GetOrderResponse implements Parcelable {
     @SerializedName("IsSuccess") @Expose private Boolean IsSuccess;
     @SerializedName("Message") @Expose private String message = null;

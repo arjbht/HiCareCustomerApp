@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="6dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_list">
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lnr_list"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent">
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customer_name"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPersonName"
+                        android:lineSpacingMultiplier="1.2"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        tools:ignore="MissingConstraints" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_mobile"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_name">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mobile_no"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_alt_mobile"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_name">
+
+                    <TextView
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alt_mobile_no"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txt_alt_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_email"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_name">
+
+                    <TextView
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txt_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnr_interested"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="2dp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_name">
+
+                    <TextView
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interested_service"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txt_interested"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/img_delete"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_del" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

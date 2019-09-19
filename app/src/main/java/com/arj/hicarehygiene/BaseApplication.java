@@ -39,6 +39,7 @@ public class BaseApplication extends Application {
     private static volatile Realm REALM = null;
     private OneSIgnalHelper mOneSignalHelper;
 
+
     public static synchronized Realm getRealm() {
         if (REALM != null) {
             return REALM;
@@ -71,8 +72,8 @@ public class BaseApplication extends Application {
         Gson gson = gsonBuilder.create();
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS);
+                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS);
 
 
         if (BuildConfig.DEBUG) {
@@ -92,6 +93,41 @@ public class BaseApplication extends Application {
         return IRETROFIT;
     }
 
+
+    public static IRetrofit getSlots() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
+            @Override public boolean shouldSkipField(FieldAttributes f) {
+                return f.getDeclaringClass().equals(RealmObject.class);
+            }
+
+            @Override public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        });
+        gsonBuilder.registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
+        }.getType(), RealmStringListTypeAdapter.INSTANCE);
+
+        Gson gson = gsonBuilder.create();
+
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            httpClientBuilder.addInterceptor(loggingInterceptor);
+        }
+
+        IRetrofit retrofit = new Retrofit.Builder().baseUrl(IRetrofit.SLOTS_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .callFactory(httpClientBuilder.build())
+                .build()
+                .create(IRetrofit.class);
+
+        return retrofit;
+    }
+
+
     private static RequestHeader getHeader() {
         RequestHeader header = null;
         RealmResults<LoginResponse> query =
@@ -104,20 +140,16 @@ public class BaseApplication extends Application {
         return header;
     }
 
+
+
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
 
-        try {
-            // OneSignal Initialization
-            OneSignal.startInit(this)
-                    .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-                    .unsubscribeWhenNotificationsAreDisabled(true)
-                    .init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mOneSignalHelper = new OneSIgnalHelper(this);
+
 
         // initialise the realm database
         try {

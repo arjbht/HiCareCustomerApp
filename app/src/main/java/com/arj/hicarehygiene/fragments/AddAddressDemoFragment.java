@@ -457,7 +457,7 @@ public class AddAddressDemoFragment extends BaseFragment implements OnMapReadyCa
         // Check that the result was from the autocomplete widget.
         if (requestCode == REQUEST_CODE_AUTOCOMPLETE) {
             if (resultCode == RESULT_OK) {
-                // Get the user's selected place from the Intent.
+                // GetReferralRequest the user's selected place from the Intent.
 //                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
                 if (getmLocation() != null) {
                     Location location = getmLocation();

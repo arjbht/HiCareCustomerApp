@@ -6,14 +6,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +30,7 @@ import com.arj.hicarehygiene.network.NetworkResponseListner;
 import com.arj.hicarehygiene.network.model.LoginResponse;
 import com.arj.hicarehygiene.network.model.OrdersModel.GetOrderRequest;
 import com.arj.hicarehygiene.network.model.OrdersModel.Orders;
+
 import io.realm.RealmResults;
 
 /**
@@ -65,18 +64,19 @@ public class OrderFragment extends BaseFragment implements NetworkResponseListne
         mfragmentOrderBinding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_order, container, false);
         getActivity().setTitle("Orders");
-        CoordinatorLayout coordinate = getActivity().findViewById(R.id.coordinate);
-        CoordinatorLayout coordinate_normal = getActivity().findViewById(R.id.coordinate1);
+
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+//        CoordinatorLayout coordinate = getActivity().findViewById(R.id.coordinate);
+//        CoordinatorLayout coordinate_normal = getActivity().findViewById(R.id.coordinate1);
 
 //        FrameLayout lnr_activity = getActivity().findViewById(R.id.container);
 //        FrameLayout lnr_fragment = getActivity().findViewById(R.id.container1);
-
-        coordinate.setVisibility(View.GONE);
-        coordinate_normal.setVisibility(View.VISIBLE);
+//
+//        coordinate.setVisibility(View.GONE);
+//        coordinate_normal.setVisibility(View.VISIBLE);
 
         setHasOptionsMenu(true);
-
-
         return mfragmentOrderBinding.getRoot();
     }
 
@@ -131,16 +131,16 @@ public class OrderFragment extends BaseFragment implements NetworkResponseListne
         mfragmentOrderBinding.swipeRefreshLayout.setRefreshing(true);
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem cart = menu.findItem(R.id.cart);
-        MenuItem search = menu.findItem(R.id.search);
-        MenuItem filter = menu.findItem(R.id.filter);
-
-        cart.setVisible(false);
-        search.setVisible(false);
-        filter.setVisible(true);
-    }
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        MenuItem cart = menu.findItem(R.id.cart);
+//        MenuItem search = menu.findItem(R.id.search);
+//        MenuItem filter = menu.findItem(R.id.filter);
+//
+//        cart.setVisible(false);
+//        search.setVisible(false);
+//        filter.setVisible(true);
+//    }
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {
         if (recyclerView.getAdapter().getItemCount() != 0) {
@@ -163,10 +163,8 @@ public class OrderFragment extends BaseFragment implements NetworkResponseListne
                 MobileNo = LoginRealmModels.get(0).getPhoneNumber();
 
                 GetOrderRequest request = new GetOrderRequest();
-
                 request.setUserId(UserId);
                 request.setMobileNo(MobileNo);
-
                 NetworkCallController controller = new NetworkCallController(this);
                 controller.setListner(this);
                 controller.getOrderList(ORDER_REQ, request);

@@ -2,11 +2,14 @@ package com.arj.hicarehygiene.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arj.hicarehygiene.utils.AppUtils;
 import com.bumptech.glide.Glide;
 
 import java.text.ParseException;
@@ -26,16 +29,16 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     private OnListItemClickHandler onItemClickHandler;
     private final Context mContext;
     private List<OrderViewModel> items = null;
+    private List<Orders> ordersList = null;
 
     public OrderSummaryAdapter(Context context) {
         if (items == null) {
             items = new ArrayList<>();
         }
+        if (ordersList == null) {
+            ordersList = new ArrayList<>();
+        }
         this.mContext = context;
-    }
-
-    public void setOnItemClickHandler(OnComplaintClickHandler onItemClickHandler) {
-        this.onItemClickHandler = onItemClickHandler;
     }
 
 
@@ -49,21 +52,22 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.mordersummaryAdapterBinding.setModel(items.get(position));
         holder.mordersummaryAdapterBinding.executePendingBindings();
-        holder.mordersummaryAdapterBinding.txtOrderno.setText("Order No: " + items.get(position).getOrderNumber());
-        if (items.get(position).getServiceType().equals("PC")) {
-            holder.mordersummaryAdapterBinding.txtService.setText("Pest Control");
-            Glide.with(mContext).load(R.drawable.ic_pest).into(holder.mordersummaryAdapterBinding.imgLogo);
-        } else if (items.get(position).getServiceType().equals("HC")) {
-
-        } else {
-            Glide.with(mContext).load(R.drawable.ic_insect).into(holder.mordersummaryAdapterBinding.imgLogo);
+        holder.mordersummaryAdapterBinding.txtOrderNo.setText("Order #"+items.get(position).getOrderNumber());
+        if (items.get(position).getServiceGroupCodeC() != null) {
+            holder.mordersummaryAdapterBinding.txtService.setText(AppUtils.GetSMSServiceType(items.get(position).getServiceGroupCodeC()));
+            holder.mordersummaryAdapterBinding.imgType.setImageResource(AppUtils.getImageByCode(items.get(position).getServiceGroupCodeC()));
         }
+        holder.mordersummaryAdapterBinding.txtAmount.setText("\u20B9 " +items.get(position).getPaymentValue());
+
+        if (!items.get(position).getCustStatus().equals("Active")) {
+            holder.mordersummaryAdapterBinding.lnrActive.setBackgroundResource(R.drawable.gradient_red);
+        }
+
         holder.mordersummaryAdapterBinding.txtStatus.setText(items.get(position).getCustStatus());
         try {
             String date = TimeUtil.reFormatDate(items.get(position).getStartDate(), "MMM dd, yyyy");
-            holder.mordersummaryAdapterBinding.txtDate.setText("Placed on: " + date);
+            holder.mordersummaryAdapterBinding.txtDate.setText(date);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -88,6 +92,8 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     }
 
     public void setData(List<Orders> data) {
+        ordersList.clear();
+        ordersList = data;
         items.clear();
         for (int index = 0; index < data.size(); index++) {
             OrderViewModel orderViewModel = new OrderViewModel();
@@ -97,6 +103,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     }
 
     public void addData(List<Orders> data) {
+        ordersList = data;
         for (int index = 0; index < data.size(); index++) {
             OrderViewModel orderViewModel = new OrderViewModel();
             orderViewModel.clone(data.get(index));

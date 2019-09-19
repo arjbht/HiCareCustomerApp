@@ -18,6 +18,7 @@ import com.arj.hicarehygiene.activities.OrderViewActivity;
 import com.arj.hicarehygiene.databinding.ServiceAdapterBinding;
 import com.arj.hicarehygiene.handler.OnComplaintClickHandler;
 import com.arj.hicarehygiene.handler.OnListItemClickHandler;
+import com.arj.hicarehygiene.handler.OnOrderDetailClickHandler;
 import com.arj.hicarehygiene.network.model.userservices.Service_Details;
 import com.arj.hicarehygiene.utils.TimeUtil;
 import com.arj.hicarehygiene.viewmodel.ServiceViewModel;
@@ -27,20 +28,24 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     private OnListItemClickHandler onItemClickHandler;
     private static int currentPosition = 0;
     private List<ServiceViewModel> items = null;
-    private Context context;
+    private OnOrderDetailClickHandler onOrderDetailClickHandler;
 
-    public ServicesAdapter(OrderViewActivity orderViewActivity) {
+
+    public ServicesAdapter() {
         if (items == null) {
             items = new ArrayList<>();
         }
-        if (orderViewActivity != null) {
-            context = orderViewActivity;
-        }
+
     }
 
     public void setOnItemClickHandler(OnComplaintClickHandler onItemClickHandler) {
         this.onItemClickHandler = onItemClickHandler;
     }
+
+    public void setOnOrderDetailClickHandler(OnOrderDetailClickHandler onOrderDetailClickHandler) {
+        this.onOrderDetailClickHandler = onOrderDetailClickHandler;
+    }
+
 
 
     @Override
@@ -54,42 +59,44 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ServicesAdapter.ViewHolder holder, final int position) {
         holder.mServiceAdapterBinding.txtSequence.setText(String.valueOf(items.get(position).getSequence_No()));
-        holder.mServiceAdapterBinding.txtTreatment.setText("Service Step : " + items.get(position).getService_Step());
+        holder.mServiceAdapterBinding.txtStep.setText( items.get(position).getService_Step());
 //        holder.mServiceAdapterBinding.txtStatus.setText("Service Status : " + items.get(position).getStatus());
-        holder.mServiceAdapterBinding.txtTechName.setText(items.get(position).getTechnicianName());
-        holder.mServiceAdapterBinding.txtTechMobile.setText(items.get(position).getTechnicianMobile());
-        holder.mServiceAdapterBinding.txtTechnicianStatus.setText(items.get(position).getTechnicianStatus());
-        holder.mServiceAdapterBinding.txtStatus.setText(items.get(position).getTechnicianStatus());
+//        holder.mServiceAdapterBinding.txt.setText(items.get(position).getTechnicianName());
+//        holder.mServiceAdapterBinding.txtTechMobile.setText(items.get(position).getTechnicianMobile());
+//        holder.mServiceAdapterBinding.txtTechnicianStatus.setText("Status : "+items.get(position).getTechnicianStatus());
+        holder.mServiceAdapterBinding.txtStatus.setText(items.get(position).getStatus());
         try {
-            String date = TimeUtil.reFormatDateTime(items.get(position).getScheduled_Date(), "MMM dd, yyyy");
-            holder.mServiceAdapterBinding.txtDate.setText("Scheduled On : " + date);
-            if (items.get(position).getCompleted_Date() != null) {
-                String close_date = TimeUtil.reFormatDateTime(items.get(position).getCompleted_Date(), "MMM dd, yyyy");
-                holder.mServiceAdapterBinding.txtCloseDate.setText("Closed On : " + close_date);
+//            String date = TimeUtil.reFormatDateTime(items.get(position).getScheduled_Date(), "MMM dd, yyyy");
+            holder.mServiceAdapterBinding.txtSchedule.setText(items.get(position).getScheduled_Date());
+            if (items.get(position).getCompleted_Date() != null && items.get(position).getCompleted_Date().length()>0) {
+//                String close_date = TimeUtil.reFormatDateTime(items.get(position).getCompleted_Date(), "MMM dd, yyyy");
+                holder.mServiceAdapterBinding.lnrCompletion.setVisibility(View.VISIBLE);
+                holder.mServiceAdapterBinding.txtCompletion.setText(items.get(position).getCompleted_Date());
+            }else {
+                holder.mServiceAdapterBinding.lnrCompletion.setVisibility(View.GONE);
             }
 
-            if (TimeUtil.isOnDate(items.get(position).getScheduled_Date(), "MMM dd, yyyy")) {
-                holder.mServiceAdapterBinding.lnrReschedule.setVisibility(View.VISIBLE);
-            } else {
-                holder.mServiceAdapterBinding.lnrReschedule.setVisibility(View.GONE);
-            }
+//            if (TimeUtil.isOnDate(items.get(position).getScheduled_Date(), "MMM dd, yyyy")) {
+//                holder.mServiceAdapterBinding.lnrReschedule.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.mServiceAdapterBinding.lnrReschedule.setVisibility(View.VISIBLE);
+//            }
 
-            holder.mServiceAdapterBinding.constraint1.setOnClickListener(new View.OnClickListener() {
+            holder.mServiceAdapterBinding.btnView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if (holder.mServiceAdapterBinding.constraint2.getVisibility() == View.GONE) {
-                        Animation slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down_animation);
-                        holder.mServiceAdapterBinding.constraint2.setVisibility(View.VISIBLE);
-                        holder.mServiceAdapterBinding.constraint2.startAnimation(slideDown);
-                    } else {
-                        holder.mServiceAdapterBinding.constraint2.setVisibility(View.GONE);
-
-                    }
+                public void onClick(View view) {
+                    onOrderDetailClickHandler.onViewDetailsClicked(position);
                 }
             });
 
+            holder.mServiceAdapterBinding.btnReschedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onOrderDetailClickHandler.onRescheduleClicked(position);
+                }
+            });
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

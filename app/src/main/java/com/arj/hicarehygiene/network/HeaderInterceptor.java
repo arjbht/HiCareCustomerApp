@@ -6,10 +6,6 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by yogi on 10/12/16.
- */
-
 public final class HeaderInterceptor implements Interceptor {
   private final RequestHeader header;
 

@@ -3,6 +3,8 @@
     package="com.arj.hicarehygiene">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,11 +15,24 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+
+        <activity android:name=".activities.AddComplaintActivity"></activity>
+        <activity android:name=".activities.ComplaintDetailActivity"
+            android:parentActivityName=".activities.HomeActivity"/>
+        <activity android:name=".activities.MyServiceDetailActivity"
+            android:parentActivityName=".activities.HomeActivity"/>
         <activity
-            android:name="com.arj.hicarehygiene.activities.LoginActivity"
+            android:name=".activities.DashboardActivity"
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity
+            android:name=".activities.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +40,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.arj.hicarehygiene.activities.HomeActivity" />
-        <activity android:name="com.arj.hicarehygiene.activities.SearchActivity" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.SearchActivity" />
         <activity
-            android:name="com.arj.hicarehygiene.activities.ComplaintActivity"
+            android:name=".activities.ComplaintActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.arj.hicarehygiene.activities.UserDetailActivity"
+            android:name=".activities.UserDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <meta-data
@@ -41,13 +56,27 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.arj.hicarehygiene.activities.CartActivity" />
-        <activity android:name="com.arj.hicarehygiene.activities.OtherActivity" />
-        <activity android:name="com.arj.hicarehygiene.activities.OrderViewActivity" />
-        <activity android:name=".BaseApplication"></activity>
+        <activity android:name=".activities.CartActivity" />
+        <activity android:name=".activities.OtherActivity" />
+        <activity android:name=".activities.OrderViewActivity" />
+        <activity android:name=".BaseApplication" />
+
+
+        <receiver
+            android:name=".utils.SMSListener"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVE" />
+            </intent-filter>
+        </receiver>
+
         <service
-            android:name="com.arj.hicarehygiene.utils.FetchAddressIntentService"
+            android:name=".utils.FetchAddressIntentService"
             android:exported="false" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

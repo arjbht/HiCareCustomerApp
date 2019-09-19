@@ -60,7 +60,7 @@ public class FetchAddressIntentService extends IntentService {
             Log.wtf(TAG, "No receiver received. There is nowhere to send the results.");
             return;
         }
-        // Get the location passed to this service through an extra.
+        // GetReferralRequest the location passed to this service through an extra.
         Location location = intent.getParcelableExtra(AppUtils.LocationConstants.LOCATION_DATA_EXTRA);
 
         // Make sure that the location data was really sent over through an extra. If it wasn't,

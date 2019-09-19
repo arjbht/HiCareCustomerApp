@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 public class Orders implements Parcelable {
     @SerializedName("Id")
     @Expose
@@ -49,6 +51,9 @@ public class Orders implements Parcelable {
     @SerializedName("DataType")
     @Expose
     private String ServiceType;
+    @SerializedName("Service_Plan__r")
+    @Expose
+    private ServicePlan servicePlan;
 
 
     protected Orders(Parcel in) {
@@ -66,6 +71,31 @@ public class Orders implements Parcelable {
         Quantity = in.readString();
         FlatType = in.readString();
         ServiceType = in.readString();
+        servicePlan = in.readParcelable(ServicePlan.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(SeviceCode);
+        dest.writeString(OrderNumber);
+        dest.writeString(EndDate);
+        dest.writeString(StartDate);
+        dest.writeString(CustStatus);
+        dest.writeString(ServicePlanName);
+        dest.writeString(Payment);
+        dest.writeString(PaymentType);
+        dest.writeParcelable(houseDetail, flags);
+        dest.writeParcelable(accountDetail, flags);
+        dest.writeString(Quantity);
+        dest.writeString(FlatType);
+        dest.writeString(ServiceType);
+        dest.writeParcelable(servicePlan, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Orders> CREATOR = new Creator<Orders>() {
@@ -192,26 +222,11 @@ public class Orders implements Parcelable {
         ServiceType = serviceType;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public ServicePlan getServicePlan() {
+        return servicePlan;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(SeviceCode);
-        dest.writeString(OrderNumber);
-        dest.writeString(EndDate);
-        dest.writeString(StartDate);
-        dest.writeString(CustStatus);
-        dest.writeString(ServicePlanName);
-        dest.writeString(Payment);
-        dest.writeString(PaymentType);
-        dest.writeParcelable(houseDetail, flags);
-        dest.writeParcelable(accountDetail, flags);
-        dest.writeString(Quantity);
-        dest.writeString(FlatType);
-        dest.writeString(ServiceType);
+    public void setServicePlan(ServicePlan servicePlan) {
+        this.servicePlan = servicePlan;
     }
 }

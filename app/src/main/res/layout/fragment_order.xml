@@ -6,21 +6,17 @@
     tools:context=".fragments.OrderFragment">
 
     <data>
-
         <import type="android.view.View" />
 
-        <!--<variable-->
-            <!--name="handler"-->
-            <!--type="com.hicarepestcontrol.handler.UserOrderClickHandler" />-->
     </data>
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:background="@color/white"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/tab_textColor"
         >
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"

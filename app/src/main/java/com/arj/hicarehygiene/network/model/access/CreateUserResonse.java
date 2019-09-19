@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by yogi on 29/04/17.
+ * Created by arjun on 29/04/17.
  */
 
 public class CreateUserResonse  {

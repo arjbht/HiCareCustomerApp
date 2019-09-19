@@ -8,13 +8,32 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/layout_splash</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <item name="actionMenuTextAppearance">@style/menu_textOnlyStyle</item>
+
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/yellow</item>
+        <item name="colorControlActivated">@color/silver</item>
+    </style>
     <style name="TransparentProgressDialog" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/AlertDialogCompat</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="menu_textOnlyStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/menu</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="MyAlertDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowFixedWidthMajor">90%</item>
+        <item name="windowFixedWidthMinor">90%</item>
     </style>
 
     <style name="AlertDialogCompat">

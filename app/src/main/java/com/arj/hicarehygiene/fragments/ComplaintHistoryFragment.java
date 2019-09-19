@@ -1,6 +1,7 @@
 package com.arj.hicarehygiene.fragments;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,26 +16,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.arj.hicarehygiene.BaseApplication;
 import com.arj.hicarehygiene.BaseFragment;
 import com.arj.hicarehygiene.R;
+import com.arj.hicarehygiene.activities.ComplaintActivity;
+import com.arj.hicarehygiene.activities.ComplaintDetailActivity;
+import com.arj.hicarehygiene.activities.DashboardActivity;
 import com.arj.hicarehygiene.activities.HomeActivity;
+import com.arj.hicarehygiene.activities.OrderViewActivity;
 import com.arj.hicarehygiene.adapter.ComplaintHistoryAdapter;
 import com.arj.hicarehygiene.databinding.FragmentComplaintHistoryBinding;
+import com.arj.hicarehygiene.handler.OnListItemClickHandler;
+import com.arj.hicarehygiene.handler.UserAddComplaintHandler;
+import com.arj.hicarehygiene.handler.UserComplaintHistoryClickHandler;
 import com.arj.hicarehygiene.network.NetworkCallController;
 import com.arj.hicarehygiene.network.NetworkResponseListner;
 import com.arj.hicarehygiene.network.model.LoginResponse;
+import com.arj.hicarehygiene.network.model.OrdersModel.Orders;
 import com.arj.hicarehygiene.network.model.complaint.ComplaintHistoryRequest;
 import com.arj.hicarehygiene.network.model.complaint.Complaints;
+
 import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ComplaintHistoryFragment extends BaseFragment implements NetworkResponseListner<List<Complaints>> {
+public class ComplaintHistoryFragment extends BaseFragment implements NetworkResponseListner<List<Complaints>>, UserAddComplaintHandler {
 
     FragmentComplaintHistoryBinding mFragmentComplaintHistoryBinding;
     ComplaintHistoryAdapter mAdapter;
@@ -64,18 +76,7 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
                 DataBindingUtil.inflate(inflater, R.layout.fragment_complaint_history, container, false);
 
         getActivity().setTitle("Complaint History");
-
-        CoordinatorLayout coordinate = getActivity().findViewById(R.id.coordinate);
-        CoordinatorLayout coordinate_normal = getActivity().findViewById(R.id.coordinate1);
-
-//        FrameLayout lnr_activity = getActivity().findViewById(R.id.container);
-//        FrameLayout lnr_fragment = getActivity().findViewById(R.id.container1);
-//        AppBarLayout appBarLayout = getActivity().findViewById(R.id.app_bar);
-
-//        appBarLayout.setVisibility(View.GONE);
-        coordinate.setVisibility(View.GONE);
-        coordinate_normal.setVisibility(View.VISIBLE);
-        // Inflate the layout for this fragment
+        mFragmentComplaintHistoryBinding.setHandler(this);
         setHasOptionsMenu(true);
         return mFragmentComplaintHistoryBinding.getRoot();
     }
@@ -88,7 +89,6 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-
                         getComplaintHistory();
                     }
                 });
@@ -103,7 +103,7 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
                 android.R.color.holo_green_dark, android.R.color.holo_green_light,
                 android.R.color.holo_red_dark, android.R.color.holo_red_light);
 
-        mAdapter = new ComplaintHistoryAdapter();
+        mAdapter = new ComplaintHistoryAdapter(getActivity());
         mFragmentComplaintHistoryBinding.recycleView.setAdapter(mAdapter);
         mFragmentComplaintHistoryBinding.recycleView.addOnScrollListener(
                 new RecyclerView.OnScrollListener() {
@@ -116,16 +116,14 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                         super.onScrolled(recyclerView, dx, dy);
 
-                        if (dy > 0 && isLastItemDisplaying(mFragmentComplaintHistoryBinding.recycleView)) {
-                            pageNumber++;
-                            mFragmentComplaintHistoryBinding.progressBar.setVisibility(View.VISIBLE);
-                            getComplaintHistory();
-                        }
+
                     }
                 });
         mFragmentComplaintHistoryBinding.swipeRefreshLayout.setRefreshing(true);
+        mFragmentComplaintHistoryBinding.shimmerComplaint.setVisibility(View.VISIBLE);
         getComplaintHistory();
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem cart = menu.findItem(R.id.cart);
@@ -136,8 +134,9 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
         search.setVisible(false);
         filter.setVisible(false);
     }
+
     private void getComplaintHistory() {
-        if ((HomeActivity) getActivity() != null) {
+        if ((ComplaintActivity) getActivity() != null) {
 //            RealmResults<Orders> OrdersRealmModels =
 //                    BaseApplication.getRealm().where(Orders.class).findAll();
             RealmResults<LoginResponse> LoginRealmModels =
@@ -152,7 +151,6 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
                 request.setUserId(UserId);
                 request.setMobileNo(MobileNo);
 //                request.setOrderNo(OrderNo);
-
                 NetworkCallController controller = new NetworkCallController(this);
                 controller.setListner(this);
                 controller.getComplaintList(COMPLAINT_REQ, request);
@@ -161,38 +159,46 @@ public class ComplaintHistoryFragment extends BaseFragment implements NetworkRes
         }
     }
 
-    private boolean isLastItemDisplaying(RecyclerView recyclerView) {
-        if (recyclerView.getAdapter().getItemCount() != 0) {
-            int lastVisibleItemPosition =
-                    ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-            if (lastVisibleItemPosition != RecyclerView.NO_POSITION
-                    && lastVisibleItemPosition == recyclerView.getAdapter().getItemCount() - 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
-    public void onResponse(int requestCode, List<Complaints> items) {
+    public void onResponse(int requestCode, final List<Complaints> items) {
+        mFragmentComplaintHistoryBinding.shimmerComplaint.setVisibility(View.GONE);
         mFragmentComplaintHistoryBinding.swipeRefreshLayout.setRefreshing(false);
-        mFragmentComplaintHistoryBinding.progressBar.setVisibility(View.GONE);
         if (items != null) {
             if (pageNumber == 1 && items.size() > 0) {
+                mFragmentComplaintHistoryBinding.txtData.setVisibility(View.GONE);
                 mAdapter.setData(items);
                 mAdapter.notifyDataSetChanged();
             } else if (items.size() > 0) {
+                mFragmentComplaintHistoryBinding.txtData.setVisibility(View.GONE);
                 mAdapter.addData(items);
                 mAdapter.notifyDataSetChanged();
             } else {
                 pageNumber--;
             }
+        } else {
+            mFragmentComplaintHistoryBinding.txtData.setVisibility(View.VISIBLE);
         }
+
+        mAdapter.setOnComplaintViewHandler(new UserComplaintHistoryClickHandler() {
+            @Override
+            public void onComplaintViewClicked(int Position) {
+                    replaceFragment(ViewComplaintFragment.newInstance(items.get(Position)),"ComplaintHistoryFragment - ViewComplaintFragment");
+                    getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
     }
 
     @Override
     public void onFailure(int requestCode) {
         mFragmentComplaintHistoryBinding.swipeRefreshLayout.setRefreshing(false);
-        mFragmentComplaintHistoryBinding.progressBar.setVisibility(View.GONE);
+        mFragmentComplaintHistoryBinding.shimmerComplaint.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void onAddComplaintClicked(View view) {
+        replaceFragment(FragmentComplaint.newInstance(), "ComplaintHistoryFragment-FragmentComplaint");
+        getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
     }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,11 +58,14 @@ public class AccountFragment extends BaseFragment implements UserAccountClickHan
         mfragmentAccountBinding.setHandler(this);
         getActivity().setTitle("Account Details");
 
-        CoordinatorLayout coordinate = getActivity().findViewById(R.id.coordinate);
-        CoordinatorLayout coordinate_normal = getActivity().findViewById(R.id.coordinate1);
-        container = getActivity().findViewById(R.id.container1);
-        coordinate.setVisibility(View.GONE);
-        coordinate_normal.setVisibility(View.VISIBLE);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+
+//        CoordinatorLayout coordinate = getActivity().findViewById(R.id.coordinate);
+//        CoordinatorLayout coordinate_normal = getActivity().findViewById(R.id.coordinate1);
+//        container = getActivity().findViewById(R.id.container1);
+//        coordinate.setVisibility(View.GONE);
+//        coordinate_normal.setVisibility(View.VISIBLE);
         setHasOptionsMenu(true);
         return mfragmentAccountBinding.getRoot();
     }
@@ -72,16 +76,16 @@ public class AccountFragment extends BaseFragment implements UserAccountClickHan
         getAccountDetails();
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem cart = menu.findItem(R.id.cart);
-        MenuItem search = menu.findItem(R.id.search);
-        MenuItem filter = menu.findItem(R.id.filter);
-
-        cart.setVisible(false);
-        search.setVisible(false);
-        filter.setVisible(false);
-    }
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        MenuItem cart = menu.findItem(R.id.cart);
+//        MenuItem search = menu.findItem(R.id.search);
+//        MenuItem filter = menu.findItem(R.id.filter);
+//
+//        cart.setVisible(false);
+//        search.setVisible(false);
+//        filter.setVisible(false);
+//    }
 
     private void getAccountDetails() {
         if ((HomeActivity) getActivity() != null) {
@@ -114,7 +118,7 @@ public class AccountFragment extends BaseFragment implements UserAccountClickHan
 
     @Override
     public void onMyOrdersClicked(View view) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container1, OrderFragment.newInstance()).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, OrderFragment.newInstance()).addToBackStack(null).commit();
 //        Intent intent = new Intent(getActivity(), UserDetailActivity.class);
 //        intent.putExtra("fragment", "Orders");
 //        getActivity().startActivity(intent);

@@ -51,7 +51,7 @@ public class TimeUtil {
     }
 
     public static String reFormatDate(String dateIn, String format) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = simpleDateFormat.parse(dateIn);
         simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(date);

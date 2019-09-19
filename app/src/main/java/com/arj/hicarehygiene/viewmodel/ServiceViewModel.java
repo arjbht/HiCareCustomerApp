@@ -7,6 +7,8 @@ import com.arj.hicarehygiene.network.model.userservices.Service_Details;
 
 public class ServiceViewModel implements Parcelable {
     private Integer Sequence_No;
+    private String Order_Number__c;
+    private String Service_Plan__c;
     private String Scheduled_Date;
     private String Status;
     private String Completed_Date;
@@ -23,9 +25,11 @@ public class ServiceViewModel implements Parcelable {
     private String TechnicianId;
     private String TechnicianName;
     private String TechnicianMobile;
+    private String Service_Group_Code__c;
 
     public ServiceViewModel() {
         this.Sequence_No = 0;
+        this.Order_Number__c = "NA";
         this.Scheduled_Date = "NA";
         this.Status = "NA";
         this.Completed_Date = "NA";
@@ -42,6 +46,8 @@ public class ServiceViewModel implements Parcelable {
         this.TechnicianName = "NA";
         this.TechnicianMobile = "NA";
         this.TechnicianStatus = "NA";
+        this.Service_Plan__c = "NA";
+        this.Service_Group_Code__c = "NA";
     }
 
 
@@ -51,6 +57,8 @@ public class ServiceViewModel implements Parcelable {
         } else {
             Sequence_No = in.readInt();
         }
+        Order_Number__c = in.readString();
+        Service_Plan__c = in.readString();
         Scheduled_Date = in.readString();
         Status = in.readString();
         Completed_Date = in.readString();
@@ -67,6 +75,7 @@ public class ServiceViewModel implements Parcelable {
         TechnicianId = in.readString();
         TechnicianName = in.readString();
         TechnicianMobile = in.readString();
+        Service_Group_Code__c = in.readString();
     }
 
     public static final Creator<ServiceViewModel> CREATOR = new Creator<ServiceViewModel>() {
@@ -217,12 +226,39 @@ public class ServiceViewModel implements Parcelable {
         TechnicianMobile = technicianMobile;
     }
 
+    public String getOrder_Number__c() {
+        return Order_Number__c;
+    }
+
+    public void setOrder_Number__c(String order_Number__c) {
+        Order_Number__c = order_Number__c;
+    }
+
+    public String getService_Plan__c() {
+        return Service_Plan__c;
+    }
+
+    public void setService_Plan__c(String service_Plan__c) {
+        Service_Plan__c = service_Plan__c;
+    }
+
+    public String getService_Group_Code__c() {
+        return Service_Group_Code__c;
+    }
+
+    public void setService_Group_Code__c(String service_Group_Code__c) {
+        Service_Group_Code__c = service_Group_Code__c;
+    }
+
     public void clone(Service_Details service) {
         this.Sequence_No = service.getSequence_No();
         this.Scheduled_Date = service.getScheduled_Date();
         this.Completed_Date = service.getCompleted_Date();
         this.Status = service.getStatus();
         this.Service_Step = service.getService_Step();
+        this.Order_Number__c = service.getOrder_Number__c();
+        this.Service_Plan__c = service.getService_Plan__c();
+        this.Service_Group_Code__c = service.getService_Group_Code__c();
     }
 
 
@@ -232,28 +268,31 @@ public class ServiceViewModel implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel parcel, int i) {
         if (Sequence_No == null) {
-            dest.writeByte((byte) 0);
+            parcel.writeByte((byte) 0);
         } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(Sequence_No);
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(Sequence_No);
         }
-        dest.writeString(Scheduled_Date);
-        dest.writeString(Status);
-        dest.writeString(Completed_Date);
-        dest.writeString(Service_Step);
-        dest.writeString(TechnicianStatus);
-        dest.writeString(CustomerAppointmentStartDate);
-        dest.writeString(CustomerAppointmentStartTime);
-        dest.writeString(CustomerAppointmentEndTime);
-        dest.writeString(CustomerAppointmentEndDate);
-        dest.writeString(CustomerAssignmentStartDate);
-        dest.writeString(CustomerAssignmentStartTime);
-        dest.writeString(CustomerAssignmentEndTime);
-        dest.writeString(CustomerAssignmentEndDate);
-        dest.writeString(TechnicianId);
-        dest.writeString(TechnicianName);
-        dest.writeString(TechnicianMobile);
+        parcel.writeString(Order_Number__c);
+        parcel.writeString(Service_Plan__c);
+        parcel.writeString(Scheduled_Date);
+        parcel.writeString(Status);
+        parcel.writeString(Completed_Date);
+        parcel.writeString(Service_Step);
+        parcel.writeString(TechnicianStatus);
+        parcel.writeString(CustomerAppointmentStartDate);
+        parcel.writeString(CustomerAppointmentStartTime);
+        parcel.writeString(CustomerAppointmentEndTime);
+        parcel.writeString(CustomerAppointmentEndDate);
+        parcel.writeString(CustomerAssignmentStartDate);
+        parcel.writeString(CustomerAssignmentStartTime);
+        parcel.writeString(CustomerAssignmentEndTime);
+        parcel.writeString(CustomerAssignmentEndDate);
+        parcel.writeString(TechnicianId);
+        parcel.writeString(TechnicianName);
+        parcel.writeString(TechnicianMobile);
+        parcel.writeString(Service_Group_Code__c);
     }
 }

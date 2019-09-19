@@ -112,9 +112,14 @@ public class BaseFragment extends Fragment {
         .addToBackStack(null)
         .commit();
   }
+
+  protected void addFragment(BaseFragment fragment, String tag) {
+    getFragmentManager().beginTransaction().add(R.id.container, fragment, tag).commit();
+  }
+
   protected void replaceFragmentBottom(BaseFragment fragment, String tag) {
     getFragmentManager().beginTransaction()
-            .replace(R.id.container1, fragment, tag)
+            .replace(R.id.container, fragment, tag)
             .addToBackStack(null)
             .commit();
   }

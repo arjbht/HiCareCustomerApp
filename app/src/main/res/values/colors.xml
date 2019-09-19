@@ -3,6 +3,9 @@
     <color name="colorPrimary">#2bb77a</color>
     <color name="colorPrimaryDark">#217d55</color>
     <color name="colorAccent">#2bb77a</color>
+    <color name="gradient">#bf2bb77a</color>
+    <color name="green">#A9F36A</color>
+    <color name="yellowgradient">#78EC6C</color>
 
     <color name="colorAccentOrange">#FF5722</color>
 
@@ -18,8 +21,15 @@
     <color name="dashboard_icons">#4AAF4F</color>
     <color name="tab_indicatorColor">#0c8c12</color>
     <color name="tab_textColor">#CFD8DC</color>
+    <color name="silver">#A9A9A9</color>
     <color name="transparent">#00000000</color>
     <color name="grey">#808080</color>
-
+    <color name="yellow">#fce903</color>
+    <color name="dark_yellow">#F4A200</color>
+    <color name="lightest_gray">#E0E0E0</color>
+    <color name="smoke_gray">#F5F5F5</color>
+    <color name="redlight">#ff726f</color>
+    <color name="redDark">#f70d1a</color>
+    <color name="shimmer">#DFDFDF</color>
 
 </resources>

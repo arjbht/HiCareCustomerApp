@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arj.hicarehygiene.BaseFragment;
 import com.arj.hicarehygiene.R;
@@ -15,13 +16,14 @@ import com.arj.hicarehygiene.databinding.FragmentRegistrationBinding;
 import com.arj.hicarehygiene.handler.UserRegisterClickHandler;
 import com.arj.hicarehygiene.network.NetworkCallController;
 import com.arj.hicarehygiene.network.NetworkResponseListner;
+import com.arj.hicarehygiene.network.model.BasicResponse;
 import com.arj.hicarehygiene.network.model.access.CreateUserResonse;
 import com.arj.hicarehygiene.viewmodel.SignUpUserViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegistrationFragment extends BaseFragment implements UserRegisterClickHandler, NetworkResponseListner<CreateUserResonse> {
+public class RegistrationFragment extends BaseFragment implements UserRegisterClickHandler, NetworkResponseListner<BasicResponse> {
     FragmentRegistrationBinding mfragmentRegistrationBinding;
     private static final int CREATE_NEW_USER = 1000;
 
@@ -43,9 +45,9 @@ public class RegistrationFragment extends BaseFragment implements UserRegisterCl
         mfragmentRegistrationBinding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false);
         mfragmentRegistrationBinding.setHandler(this);
+        mfragmentRegistrationBinding.setModel(new SignUpUserViewModel());
         String text = "<font color=#000000>Already have an account?</font> <b><font color=#2bb77a> Sign In</font></b>";
         mfragmentRegistrationBinding.btnSignin.setText(Html.fromHtml(text));
-
         return mfragmentRegistrationBinding.getRoot();
     }
 
@@ -84,10 +86,14 @@ public class RegistrationFragment extends BaseFragment implements UserRegisterCl
     }
 
     @Override
-    public void onResponse(int requestCode, CreateUserResonse response) {
+    public void onResponse(int requestCode, BasicResponse response) {
         switch (requestCode) {
             case CREATE_NEW_USER:
-
+                if(response.getSuccess()){
+                    Toast.makeText(getActivity(), "Otp send successflly.", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
         }
     }
 

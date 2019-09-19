@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsMessage;
@@ -21,22 +23,37 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.arj.hicarehygiene.BaseFragment;
 import com.arj.hicarehygiene.R;
 import com.arj.hicarehygiene.activities.HomeActivity;
 import com.arj.hicarehygiene.databinding.FragmentLoginBinding;
+import com.arj.hicarehygiene.handler.OtpReceivedInterface;
 import com.arj.hicarehygiene.handler.UserLoginClickHandler;
+import com.arj.hicarehygiene.network.model.BasicResponse;
 import com.arj.hicarehygiene.network.model.LoginResponse;
 import com.arj.hicarehygiene.network.NetworkCallController;
 import com.arj.hicarehygiene.network.NetworkResponseListner;
 import com.arj.hicarehygiene.network.model.VerifyOtpRequest;
+import com.arj.hicarehygiene.utils.AppSignatureHelper;
+import com.arj.hicarehygiene.utils.SMSListener;
 import com.arj.hicarehygiene.utils.SharedPreferencesUtility;
+import com.arj.hicarehygiene.utils.notifications.OneSIgnalHelper;
 import com.arj.hicarehygiene.viewmodel.UserLoginViewModel;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends BaseFragment implements UserLoginClickHandler {
+public class LoginFragment extends BaseFragment implements UserLoginClickHandler, GoogleApiClient.ConnectionCallbacks,
+        OtpReceivedInterface, GoogleApiClient.OnConnectionFailedListener {
     FragmentLoginBinding mfragmentLoginBinding;
     AlertDialog alertDialog;
     private static final int OTP_REQUEST = 1000;
@@ -44,6 +61,9 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
     String id = "";
     String code = "";
     private static String OTP = "";
+    SMSListener mSmsBroadcastReceiver;
+    GoogleApiClient mGoogleApiClient;
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -62,84 +82,42 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
                              Bundle savedInstanceState) {
         mfragmentLoginBinding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
-        Broadcast receiver = new Broadcast();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,
-                new IntentFilter(Broadcast.PROCESS_RESPONSE));
+
+        AppSignatureHelper appSignatureHelper = new AppSignatureHelper(getActivity());
+        appSignatureHelper.getAppSignatures();
+
+        mSmsBroadcastReceiver = new SMSListener();
+        //set google api client for hint request
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .enableAutoManage(getActivity(), this)
+                .addApi(Auth.CREDENTIALS_API)
+                .build();
+
+        mSmsBroadcastReceiver.setOnOtpListeners(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
+        getActivity().registerReceiver(mSmsBroadcastReceiver, intentFilter);
+        getActivity().setTitle("");
+//        getHintPhoneNumber();
+        startSMSListener();
+
 
         mfragmentLoginBinding.setModel(new UserLoginViewModel());
-
         mfragmentLoginBinding.setHandler(this);
 
-        String text = "<font color=#000000>Did't get the OTP?</font> <font color=#2bb77a> Resend OTP</font>";
+        mfragmentLoginBinding.txtResend.setVisibility(View.GONE);
+        String text = "<font color=#000000>Did't get the OTP?</font> <font color=#217d55> Resend OTP</font>";
         mfragmentLoginBinding.txtResend.setText(Html.fromHtml(text));
 
-        mfragmentLoginBinding.buttonSignIn.setText("SEND OTP");
+        mfragmentLoginBinding.buttonSignIn.setText("LOGIN");
 
 
         if (!OTP.equals("")) {
             mfragmentLoginBinding.edtOtp.setText(OTP);
         }
 
-//        new CountDownTimer(20000, 1000) {
-//
-//            public void onTick(long millisUntilFinished) {
-//                mfragmentLoginBinding.timerValue.setText(new SimpleDateFormat("mm:ss").format(new Date(millisUntilFinished)));
-//            }
-//
-//            public void onFinish() {
-//                mfragmentLoginBinding.txtSend.setVisibility(View.VISIBLE);
-//                mfragmentLoginBinding.txtSend.setText("RESEND");
-//            }
-//        }.start();
-
-//        new CountDownTimer(20000, 1000) {//CountDownTimer(edittext1.getText()+edittext2.getText()) also parse it to long
-//
-//            @TargetApi(Build.VERSION_CODES.N)
-//            public void onTick(long millisUntilFinished) {
-//                mfragmentLoginBinding.timerValue.setText(toIntExact(millisUntilFinished / 1000));
-//                //here you can have your logic to set text to edittext
-//            }
-//
-//            public void onFinish() {
-//                mfragmentLoginBinding.txtSend.setVisibility(View.VISIBLE);
-//                mfragmentLoginBinding.txtSend.setText("RESEND");
-//            }
-//        }
-//                .start();
-//        mfragmentLoginBinding.editTextUsername.addTextChangedListener(new TextWatcher() {
-//            private Timer timer = new Timer();
-//            private final long DELAY = 2000;
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//                timer.cancel();
-//                timer = new Timer();
-//                timer.schedule(
-//                        new TimerTask() {
-//                            @Override
-//                            public void run() {
-//                                if (!mfragmentLoginBinding.editTextUsername.getText().equals("") && mfragmentLoginBinding.editTextUsername.getText().toString().length() == 10)
-//                                    getOtp();
-//                            }
-//                        },
-//                        DELAY
-//                );
-//
-//
-//            }
-//        });
-        if (mfragmentLoginBinding.buttonSignIn.getText().toString().equals("SEND OTP")) {
+        if (mfragmentLoginBinding.buttonSignIn.getText().toString().equals("LOGIN")) {
             mfragmentLoginBinding.lnrOtp.setVisibility(View.GONE);
 
         } else {
@@ -151,6 +129,25 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
         return mfragmentLoginBinding.getRoot();
     }
 
+
+    public void startSMSListener() {
+        SmsRetrieverClient mClient = SmsRetriever.getClient(getActivity());
+        Task<Void> mTask = mClient.startSmsRetriever();
+        mTask.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Log.e("TAG_OTP", "SMS Retriever starts");
+            }
+        });
+        mTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("TAG_OTP", "Error");
+            }
+        });
+    }
+
     private void getOtp() {
         final UserLoginViewModel userLoginViewModel = mfragmentLoginBinding.getModel();
         NetworkCallController controller = new NetworkCallController(LoginFragment.this);
@@ -159,6 +156,8 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
 
             @Override
             public void onResponse(int requestCode, LoginResponse response) {
+
+                mfragmentLoginBinding.txtResend.setVisibility(View.VISIBLE);
                 // delete all previous record
                 getRealm().beginTransaction();
                 getRealm().deleteAll();
@@ -174,6 +173,8 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
                     } else {
                         Toast.makeText(getActivity(), response.getOTP() + "", Toast.LENGTH_SHORT).show();
                         if (response.getOTP() != null) {
+                            mfragmentLoginBinding.lnrOtp.setVisibility(View.VISIBLE);
+                            mfragmentLoginBinding.buttonSignIn.setText("VERIFY");
                             id = response.getUserID();
                             code = response.getOTP();
                             mfragmentLoginBinding.getModel().setId(id);
@@ -196,37 +197,57 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
     @Override
     public void onLoginClicked(View view) {
 
-        if (mfragmentLoginBinding.buttonSignIn.getText().toString().equals("SEND OTP")) {
-            getOtp();
-            mfragmentLoginBinding.buttonSignIn.setText("LOGIN");
-            mfragmentLoginBinding.lnrOtp.setVisibility(View.VISIBLE);
-
-        } else if (mfragmentLoginBinding.buttonSignIn.getText().toString().equals("LOGIN")) {
-
-            final UserLoginViewModel userLoginViewModel = mfragmentLoginBinding.getModel();
-            NetworkCallController controller = new NetworkCallController(this);
-            controller.setListner(new NetworkResponseListner<VerifyOtpRequest>() {
-
-                @Override
-                public void onResponse(int requestCode, VerifyOtpRequest response) {
-
-                    if (isVisible()) {
-                        SharedPreferencesUtility.savePrefBoolean(getActivity(),
-                                SharedPreferencesUtility.IS_USER_LOGIN, true);
-                        startActivity(new Intent(getActivity(), HomeActivity.class));
-                        getActivity().finish();
-                    }
+        if (mfragmentLoginBinding.editTextUsername.getText().toString().length() < 10) {
+            mfragmentLoginBinding.editTextUsername.setError("Invalid mobile no.");
+        } else if (mfragmentLoginBinding.editTextUsername.getText().toString().length() == 0) {
+            mfragmentLoginBinding.editTextUsername.setError("Please enter mobile no.");
+        } else {
+            if (mfragmentLoginBinding.buttonSignIn.getText().toString().equals("LOGIN")) {
+                getOtp();
+            } else {
+                if (mfragmentLoginBinding.edtOtp.getText().toString().length() == 0 || mfragmentLoginBinding.edtOtp.getText().toString().length() < 6) {
+                    Toast.makeText(getActivity(), "Invalid OTP.", Toast.LENGTH_SHORT).show();
+                } else {
+                    verifyOTP();
                 }
 
-                @Override
-                public void onFailure(int requestCode) {
+            }
 
-                }
-            });
-            controller.verify(LOGIN_REQUST, userLoginViewModel.getId(), userLoginViewModel.getOtp());
         }
 
 
+    }
+
+    private void verifyOTP() {
+
+        final UserLoginViewModel userLoginViewModel = mfragmentLoginBinding.getModel();
+        NetworkCallController controller = new NetworkCallController(this);
+        OneSIgnalHelper oneSIgnalHelper = new OneSIgnalHelper(getActivity());
+        String mStrPlayerId = oneSIgnalHelper.getmStrUserID();
+        VerifyOtpRequest request = new VerifyOtpRequest();
+        request.setCode(userLoginViewModel.getOtp());
+        request.setUserId(userLoginViewModel.getId());
+        request.setPlayerId(mStrPlayerId);
+        controller.setListner(new NetworkResponseListner() {
+            @Override
+            public void onResponse(int requestCode, Object data) {
+                BasicResponse response = (BasicResponse) data;
+                if (response.getSuccess()) {
+                    SharedPreferencesUtility.savePrefBoolean(getActivity(),
+                            SharedPreferencesUtility.IS_USER_LOGIN, true);
+                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                    getActivity().finish();
+                } else {
+                    Toast.makeText(getActivity(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int requestCode) {
+
+            }
+        });
+        controller.verify(LOGIN_REQUST, request);
     }
 
     @Override
@@ -253,7 +274,7 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
                         code = response.getOTP();
                         mfragmentLoginBinding.getModel().setId(id);
                         mfragmentLoginBinding.getModel().setOtp(code);
-
+                        startSMSListener();
                     }
                 }
             }
@@ -310,46 +331,32 @@ public class LoginFragment extends BaseFragment implements UserLoginClickHandler
 
     }
 
-    public static class Broadcast extends BroadcastReceiver {
-        public static final String PROCESS_RESPONSE = "android.provider.Telephony.SMS_RECEIVED";
-
-        public void onReceive(Context context, Intent intent) {
-
-            final Bundle bundle = intent.getExtras();
-
-            try {
-
-                if (bundle != null) {
-
-                    final Object[] pdusObj = (Object[]) bundle.get("pdus");
-
-                    for (int i = 0; i < pdusObj.length; i++) {
-
-                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-                        String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-
-                        String senderNum = phoneNumber;
-                        String message = currentMessage.getDisplayMessageBody();
-
-                        String[] parts = message.split(" ");
-                        String lastWord = parts[parts.length - 1];
-
-                        String otp = lastWord.substring(0, 6);
-
-                        OTP = otp;
-
-                        Log.i("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
-
-
-                    }
-                }
-            } catch (Exception e) {
-                Log.e("SmsReceiver", "Exception smsReceiver" + e);
-
-            }
+    @Override
+    public void onOtpReceived(String otp) {
+        Log.e("Otp Received", otp);
+        mfragmentLoginBinding.edtOtp.setText(otp);
+        if (mfragmentLoginBinding.edtOtp.length() == 6) {
+            verifyOTP();
         }
+    }
 
+    @Override
+    public void onOtpTimeout() {
+        Log.v("SMSListener", "TimeOutException");
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
 
     }
 
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
